@@ -12,16 +12,56 @@ firebase.initializeApp(firebaseConfig);
 
 var database = firebase.database();
 
+var connectionsRef = database.ref("/connections");
+var connectedRef = database.ref(".info/connected");
+var playerRef = database.ref("/players");
+
 $(() => {
-    console.log("Running");
 
-    console.log(database);
+    var playing = false;
 
-    database.ref().set({ ping: true});
+    // Add our new connection
+    connectedRef.on("value", (snap) => {
+        if(snap.val()){
+            var con = connectionsRef.push(true);
 
-    database.ref().on("value", (snap) => {
-        console.log(snap.val());
-    }, (err) => {
+            con.onDisconnect().remove();
+        }
+    },
+    (err) => {
         console.log(err);
-    })
+    });
+
+    // Event for our added connections
+    connectionsRef.on("value", (snap) => {
+        var numConnected = snap.numChildren();
+
+        // Show if we're a player who hasn't added their name yet.
+        if(numConnected <= 2 && !playing){
+            playing = true;
+            $("#formBlock").removeClass("d-none");
+            $("#gameInSession").addClass("d-none");
+        }
+        else if(numConnected > 2 && !playing){
+            $("#formBlock").addClass("d-none");
+            $("#gameInSession").removeClass("d-none");
+        }
+
+    },
+    (err) => {
+        console.log(err);
+    });
+
+    // Click event for our name button
+    $("#nameButton").click(() => {
+        if(!playing)
+            return;
+
+        var name = playerRef.push({name: $("#nameInput").val()});
+        name.onDisconnect().remove();
+
+        $("#nameInput").val("");
+        $("#formBlock").addClass("d-none");
+    });
+
 });

@@ -17,6 +17,7 @@ $(() => {
     var connectedRef = database.ref(".info/connected");
     var playerRef = database.ref("/players");
     var gameRef = database.ref("/game");
+    var chatRef = database.ref("/chat");
 
     function errorOnFirebase(err) {
         console.log(err);
@@ -87,6 +88,7 @@ $(() => {
         if(playing && snap.numChildren() == 2){
             $("#waitingSpan").addClass("d-none");
             $("#gameBlock").removeClass("d-none");
+            $("#chatBlock").removeClass("d-none");
         }
     }, errorOnFirebase);
 
@@ -118,10 +120,19 @@ $(() => {
 
     }, errorOnFirebase);
 
+    chatRef.on("child_added", (snap) => {
+        var messageDiv = $("<div>");
+        var userSpan = $("<span>").addClass("username").text(snap.val().user + ": ");
+        var messageSpan = $("<span>").text(snap.val().message);
+        messageDiv.append(userSpan, messageSpan);
+
+        $("#chatBox").append(messageDiv);
+    }, errorOnFirebase);
+
 
     // Click event for our name button
     $("#nameButton").click(() => {
-        if(!playing)
+        if(!playing || $("#nameInput").val() === "")
             return;
 
         $("#waitingSpan").removeClass("d-none");
@@ -152,6 +163,24 @@ $(() => {
         playRef = gameRef.push(ourPlay);
 
         playRef.onDisconnect().remove();
+    });
+
+    $("#chatButton").click((e) => {
+        if(!playing || $("#chatInput").val() === "")
+            return;
+
+        var msg = $("#chatInput").val();
+
+        var data = {
+            user: username,
+            message: msg
+        };
+
+        var chat = chatRef.push(data);
+
+        chat.onDisconnect().remove();
+
+        $("#chatInput").val("");
     });
 
 });

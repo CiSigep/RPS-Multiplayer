@@ -1,0 +1,7 @@
+.username {
+    font-weight: bold;
+}
+
+#chatBox {
+    overflow-y: scroll;
+}

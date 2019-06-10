@@ -89,6 +89,7 @@ $(() => {
             $("#waitingSpan").addClass("d-none");
             $("#gameBlock").removeClass("d-none");
             $("#chatBlock").removeClass("d-none");
+            $("#statusBlock").removeClass("d-none");
         }
     }, errorOnFirebase);
 
@@ -108,12 +109,13 @@ $(() => {
             ourPlay.played = true;
             opposingPlay.played = true;
 
-            $("#gameStatusSpan").text(status);
-            $("#gameStatusSpan").removeClass("d-none");
+            $("#gameStatus").text(status);
+            $("#wins").text(wins);
+            $("#losses").text(losses);
+            $("#draws").text(draws);
             setTimeout(() => {
-                $("#gameStatusSpan").text("");
-                $("#gameStatusSpan").addClass("d-none");
                 $("#gameBlock").removeClass("d-none");
+                $("#gameStatus").text("Playing");
                 playRef.remove();
             }, 5000);
         }
@@ -121,8 +123,11 @@ $(() => {
     }, errorOnFirebase);
 
     chatRef.on("child_added", (snap) => {
+        if(!playing)
+         return;
+
         var messageDiv = $("<div>");
-        var userSpan = $("<span>").addClass("username").text(snap.val().user + ": ");
+        var userSpan = $("<span>").addClass("font-weight-bold").text(snap.val().user + ": ");
         var messageSpan = $("<span>").text(snap.val().message);
         messageDiv.append(userSpan, messageSpan);
 

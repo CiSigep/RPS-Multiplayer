@@ -25,7 +25,6 @@
             <div id="contentBlock" class="col-12">
                 <span id="gameInSession" class="d-none">A game is in session, please wait.</span>
                 <span id="waitingSpan" class="d-none">Waiting for the another player...</span>
-                <span id="gameStatusSpan" class="d-none"></span>
                 <div id="formBlock" class="input-group w-25 d-none">
                     <input type="text" id="nameInput" class="form-control">
                     <div class="input-group-append">
@@ -45,6 +44,12 @@
                             <button id="chatButton" class="btn btn-dark">Send</button>
                         </div>
                     </div>
+                </div>
+                <div id="statusBlock" class="d-none">
+                    <div><span class="font-weight-bold">Status: </span><span id="gameStatus">Playing</span></div>
+                    <div><span class="font-weight-bold">Wins: </span><span id="wins">0</span></div>
+                    <div><span class="font-weight-bold">Losses: </span><span id="losses">0</span></div>
+                    <div><span class="font-weight-bold">Draws: </span><span id="draws">0</span></div>
                 </div>
             </div>
         </div>

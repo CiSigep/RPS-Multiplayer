@@ -1,5 +1,13 @@
+body {
+    background: url("../img/background.jpg");
+}
+
 #chatBox {
-    overflow-y: scroll;
+    overflow-y: overlay;
+}
+
+.h-400px {
+    height: 400px;
 }
 
 .mh-400px {
@@ -8,4 +16,8 @@
 
 .mh-200px {
     min-height: 200px;
+}
+
+.status-text {
+    font-size: 14pt;
 }

@@ -47,9 +47,11 @@ $(() => {
 
     var playing = false;
     var username = "";
+    var opponentName = "";
     var wins = 0;
     var losses = 0;
     var draws = 0;
+
 
     // Reference to remove the play when the player disconnects or the round ends
     var playRef;
@@ -73,11 +75,11 @@ $(() => {
         // Show if we're a player who hasn't added their name yet.
         if(numConnected <= 2 && !playing){
             playing = true;
-            $("#formBlock").removeClass("d-none");
+            $("#formBlock").fadeIn();
             $("#gameInSession").addClass("d-none");
         }
         else if(numConnected > 2 && !playing){
-            $("#formBlock").addClass("d-none");
+            $("#formBlock").hide();
             $("#gameInSession").removeClass("d-none");
         }
 
@@ -85,6 +87,13 @@ $(() => {
 
     // Callback when the value changes in the player database
     playerRef.on("value", (snap) => {
+        if(snap.numChildren() == 1){
+            var internalKey = Object.keys(snap.val())[0];
+
+            if(snap.val()[internalKey].name !== username)
+                opponentName = snap.val()[internalKey].name;    
+        }
+            
         if(playing && snap.numChildren() == 2){
             $("#waitingSpan").addClass("d-none");
             $("#gameBlock").removeClass("d-none");
@@ -104,14 +113,14 @@ $(() => {
         if(typeof ourPlay !== "undefined" && !ourPlay.played
         && typeof opposingPlay !== "undefined" && !opposingPlay.played){
 
-            $("#waitingSpan").addClass("d-none");
-
             var status = compareSelections(ourPlay, opposingPlay);
             ourPlay.played = true;
             opposingPlay.played = true;
 
             $("#opposingChoice").attr("src", "assets/img/hand-" + opposingPlay.selected.toLowerCase() + ".png");
+            $("#opposingChoice").attr("alt", opposingPlay.selected);
             $("#playerChoice").attr("src", "assets/img/hand-" + ourPlay.selected.toLowerCase() + ".png");
+            $("#playerChoice").attr("alt", ourPlay.selected);
 
             $("#opposingChoice").fadeIn();
             $("#playerChoice").fadeIn();
@@ -121,7 +130,7 @@ $(() => {
             $("#losses").text(losses);
             $("#draws").text(draws);
             setTimeout(() => {
-                $("#gameBlock").removeClass("d-none");
+                $(".game-btn").prop("disabled", false);
                 $("#gameStatus").text("Playing");
                 $("#opposingChoice").fadeOut();
                 $("#playerChoice").fadeOut();
@@ -148,6 +157,22 @@ $(() => {
     $("#nameButton").click(() => {
         if(!playing || $("#nameInput").val() === "")
             return;
+            
+        else if($("#nameInput").val() === opponentName){
+            var alert = $("<div>").addClass("alert alert-danger alert-dismissible w-50 mx-auto mt-1").attr("role", "alert");
+            alert.text("That name is already in use!");
+
+            var dismissButton = $("<button>").attr("type", "button").addClass("close");
+            dismissButton.attr("data-dismiss", "alert");
+            dismissButton.attr("aria-label", "Close");
+            dismissButton.append($("<span>").attr("aria-hidden", "true").html("&times;"));
+
+            alert.append(dismissButton);
+
+            $("#formBlock").append(alert);
+
+            return;
+        }
 
         $("#waitingSpan").removeClass("d-none");
         username = $("#nameInput").val();
@@ -158,6 +183,12 @@ $(() => {
         $("#formBlock").addClass("d-none");
     });
 
+    // Enter press for name input clicks the submit button
+    $("#nameInput").keydown((e) => {
+        if(e.which === 13)
+            $("#nameButton").click();
+    });
+
     // Click events for our game buttons
     $(".game-btn").click((e) => {
         if(!playing)
@@ -165,8 +196,8 @@ $(() => {
 
         var selection = $(e.currentTarget).attr("value");
 
-        $("#gameBlock").addClass("d-none");
-        $("#waitingSpan").removeClass("d-none");
+        $(".game-btn").prop("disabled", true);
+        $("#gameStatus").text("Waiting on Opponent");
 
         ourPlay = {
             user: username,
@@ -179,6 +210,7 @@ $(() => {
         playRef.onDisconnect().remove();
     });
 
+    // Send button click
     $("#chatButton").click((e) => {
         if(!playing || $("#chatInput").val() === "")
             return;
@@ -195,6 +227,12 @@ $(() => {
         chat.onDisconnect().remove();
 
         $("#chatInput").val("");
+    });
+
+    // Enter press for chat input clicks the button
+    $("#chatInput").keydown((e) => {
+        if(e.which === 13) 
+            $("#chatButton").click();
     });
 
 });

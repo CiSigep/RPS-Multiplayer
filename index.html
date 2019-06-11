@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="h-100">
 
 <head>
     <meta charset="UTF-8">
@@ -13,67 +13,101 @@
     <script src="https://www.gstatic.com/firebasejs/6.1.1/firebase-database.js"></script>
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"
         integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+        crossorigin="anonymous"></script>
     <script src="assets/javascript/script.js"></script>
 </head>
 
-<body>
-    <div class="container">
-        <div class="jumbotron text-center">
+<body class="h-100">
+    <div class="container bg-dark text-light h-100 pt-1">
+        <div class="jumbotron text-center text-dark bg-primary">
             <h1>Rock, Paper, Scissors</h1>
         </div>
         <div class="row mt-2">
             <div id="contentBlock" class="col-12 text-center">
-                <span id="gameInSession" class="d-none">A game is in session, please wait.</span>
-                <span id="waitingSpan" class="d-none">Waiting for the other player...</span>
-                <div id="formBlock" class="input-group w-50 mx-auto d-none">
-                    <input type="text" id="nameInput" class="form-control">
-                    <div class="input-group-append">
-                        <button id="nameButton" class="btn btn-dark">Submit</button>
+                <span id="gameInSession" class="d-none display-4">A game is in session, please wait.</span>
+                <span id="waitingSpan" class="d-none display-4">Waiting for the other player...</span>
+                <div id="formBlock" class="text-left" style="display: none">
+                    <div class="w-50 mx-auto">
+                        <label for="nameInput">Enter your name:</label>
+                    </div>
+                    <div class="input-group w-50 mx-auto">
+                        <input type="text" id="nameInput" class="form-control">
+                        <div class="input-group-append">
+                            <button id="nameButton" class="btn btn-primary">Submit</button>
+                        </div>
                     </div>
                 </div>
             </div>
             <div id="statusBlock" class="col-lg-4 d-none mh-400px">
-                <div><span class="font-weight-bold">Status: </span><span id="gameStatus">Playing</span></div>
-                <div><span class="font-weight-bold">Wins: </span><span id="wins">0</span></div>
-                <div><span class="font-weight-bold">Losses: </span><span id="losses">0</span></div>
-                <div><span class="font-weight-bold">Draws: </span><span id="draws">0</span></div>
+                <div class="bg-info rounded h-100 px-3 py-3">
+                    <div class="border-bottom border-light pb-2">
+                        <h4 class="font-weight-bold">Status: </h4>
+                        <div class="text-center">
+                            <span id="gameStatus" class="status-text">Playing</span>
+                        </div>
+                    </div>
+                    <div class="border-bottom border-light py-2">
+                        <h4 class="font-weight-bold">Wins: </h4>
+                        <div class="text-center">
+                            <span id="wins" class="status-text">0</span>
+                        </div>
+                    </div>
+                    <div class="border-bottom border-light py-2">
+                        <h4 class="font-weight-bold">Losses: </h4>
+                        <div class="text-center">
+                            <span id="losses" class="status-text">0</span>
+                        </div>
+                    </div>
+                    <div class="border-bottom border-light py-2">
+                        <h4 class="font-weight-bold">Draws: </h4>
+                        <div class="text-center">
+                            <span id="draws">0</span>
+                        </div>
+                    </div>
+                </div>
             </div>
-            <div id="viewBlock" class="col-lg-4 d-none mh-400px">
+            <div id="viewBlock" class="col-lg-4 d-none mh-400px bg-white text-dark rounded py-2">
                 <div class="container-fluid">
                     <div class="row mh-200px">
                         <div class="col-12 text-center">
                             <h4 class="mb-4">Opponent's Choice:</h4>
-                            <img id="opposingChoice" src="assets/img/hand-paper.png" class="img-fluid" style="display: none">
+                            <img id="opposingChoice" src="assets/img/hand-paper.png" class="img-fluid" alt="Paper"
+                                style="display: none">
                         </div>
                     </div>
                     <div class="row mh-200px">
                         <div class="col-12 text-center">
                             <h4 class="mb-4">Your Choice:</h4>
-                            <img id="playerChoice" src="assets/img/hand-paper.png" class="img-fluid" style="display: none">
+                            <img id="playerChoice" src="assets/img/hand-paper.png" class="img-fluid" alt="Paper"
+                                style="display: none">
                         </div>
                     </div>
                 </div>
             </div>
             <div id="chatBlock" class="col-md-4 d-none mh-400px ">
-                <div id="chatBox" class="mh-400px border border-bottom-0 border-dark"></div>
-                <div class="input-group border border-top-0 border-dark">
+                <div id="chatBox" class="h-400px bg-white text-dark pl-2 pt-1 rounded"></div>
+                <div class="input-group mt-1">
                     <input type="text" id="chatInput" class="form-control">
                     <div class="input-group-append">
-                        <button id="chatButton" class="btn btn-dark">Send</button>
+                        <button id="chatButton" class="btn btn-primary">Send</button>
                     </div>
                 </div>
             </div>
         </div>
-        <div class="row">
+        <div class="row mt-3">
             <div class="offset-lg-4"></div>
             <div id="gameBlock" class="col-lg-4 btn-group d-none">
-                    <button type="button" class="btn btn-dark game-btn" value="Rock"><img src="assets/img/icon-hand-rock.png" alt="Rock"></button>
-                    <button type="button" class="btn btn-dark game-btn" value="Paper"><img src="assets/img/icon-hand-paper.png" alt="Paper"></button>
-                    <button type="button" class="btn btn-dark game-btn" value="Scissors"><img src="assets/img/icon-hand-scissors.png" alt="Scissors"></button>
+                <button type="button" class="btn btn-primary game-btn" value="Rock"><img
+                        src="assets/img/icon-hand-rock.png" alt="Rock"></button>
+                <button type="button" class="btn btn-primary game-btn" value="Paper"><img
+                        src="assets/img/icon-hand-paper.png" alt="Paper"></button>
+                <button type="button" class="btn btn-primary game-btn" value="Scissors"><img
+                        src="assets/img/icon-hand-scissors.png" alt="Scissors"></button>
             </div>
         </div>
     </div>
-
 </body>
 
 </html>

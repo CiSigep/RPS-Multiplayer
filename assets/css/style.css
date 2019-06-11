@@ -3,7 +3,7 @@ body {
 }
 
 #chatBox {
-    overflow-y: overlay;
+    overflow-y: scroll;
 }
 
 .h-400px {

@@ -90,6 +90,7 @@ $(() => {
             $("#gameBlock").removeClass("d-none");
             $("#chatBlock").removeClass("d-none");
             $("#statusBlock").removeClass("d-none");
+            $("#viewBlock").removeClass("d-none");
         }
     }, errorOnFirebase);
 
@@ -109,6 +110,12 @@ $(() => {
             ourPlay.played = true;
             opposingPlay.played = true;
 
+            $("#opposingChoice").attr("src", "assets/img/hand-" + opposingPlay.selected.toLowerCase() + ".png");
+            $("#playerChoice").attr("src", "assets/img/hand-" + ourPlay.selected.toLowerCase() + ".png");
+
+            $("#opposingChoice").fadeIn();
+            $("#playerChoice").fadeIn();
+
             $("#gameStatus").text(status);
             $("#wins").text(wins);
             $("#losses").text(losses);
@@ -116,8 +123,10 @@ $(() => {
             setTimeout(() => {
                 $("#gameBlock").removeClass("d-none");
                 $("#gameStatus").text("Playing");
+                $("#opposingChoice").fadeOut();
+                $("#playerChoice").fadeOut();
                 playRef.remove();
-            }, 5000);
+            }, 4000);
         }
 
     }, errorOnFirebase);

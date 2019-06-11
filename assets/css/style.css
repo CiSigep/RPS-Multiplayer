@@ -1,3 +1,11 @@
 #chatBox {
     overflow-y: scroll;
 }
+
+.mh-400px {
+    min-height: 400px
+}
+
+.mh-200px {
+    min-height: 200px;
+}

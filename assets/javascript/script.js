@@ -159,7 +159,7 @@ $(() => {
             return;
             
         else if($("#nameInput").val() === opponentName){
-            var alert = $("<div>").addClass("alert alert-danger alert-dismissible w-50 mx-auto mt-1").attr("role", "alert");
+            var alert = $("<div>").addClass("alert alert-danger alert-dismissible w-50 mobile-width-100 mx-auto mt-1").attr("role", "alert");
             alert.text("That name is already in use!");
 
             var dismissButton = $("<button>").attr("type", "button").addClass("close");

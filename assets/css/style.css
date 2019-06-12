@@ -21,3 +21,13 @@ body {
 .status-text {
     font-size: 14pt;
 }
+
+@media screen and (max-width: 576px){
+    .mobile-width-100 {
+        width: 100%!important;
+    }
+
+    .mobile-height {
+        height: 1800px!important;
+    }
+}

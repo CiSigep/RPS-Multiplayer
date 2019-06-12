@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" class="h-100">
+<html lang="en" class="h-100 mobile-height">
 
 <head>
     <meta charset="UTF-8">
@@ -19,7 +19,7 @@
     <script src="assets/javascript/script.js"></script>
 </head>
 
-<body class="h-100">
+<body class="h-100 mobile-height">
     <div class="container bg-dark text-light h-100 pt-1">
         <div class="jumbotron text-center text-white bg-primary">
             <h1>Rock, Paper, Scissors</h1>
@@ -29,10 +29,10 @@
                 <span id="gameInSession" class="d-none display-4">A game is in session, please wait.</span>
                 <span id="waitingSpan" class="d-none display-4">Waiting for the other player...</span>
                 <div id="formBlock" class="text-left" style="display: none">
-                    <div class="w-50 mx-auto">
+                    <div class="w-50 mobile-width-100 mx-auto">
                         <label for="nameInput">Enter your name:</label>
                     </div>
-                    <div class="input-group w-50 mx-auto">
+                    <div class="input-group w-50 mobile-width-100 mx-auto">
                         <input type="text" id="nameInput" class="form-control">
                         <div class="input-group-append">
                             <button id="nameButton" class="btn btn-primary">Submit</button>
@@ -40,7 +40,7 @@
                     </div>
                 </div>
             </div>
-            <div id="statusBlock" class="col-lg-4 d-none mh-400px">
+            <div id="statusBlock" class="col-md-4 col-12 d-none mh-400px mt-md-0 mt-2">
                 <div class="bg-primary rounded h-100 px-3 py-3">
                     <div class="border-bottom border-light pb-2">
                         <h4 class="font-weight-bold">Status: </h4>
@@ -68,8 +68,8 @@
                     </div>
                 </div>
             </div>
-            <div id="viewBlock" class="col-lg-4 d-none mh-400px bg-white text-dark rounded py-2">
-                <div class="container-fluid">
+            <div id="viewBlock" class="col-md-4 col-12 d-none mh-400px bg-white text-dark rounded py-2 mt-md-0 mt-2">
+                <div class="container">
                     <div class="row mh-200px">
                         <div class="col-12 text-center">
                             <h4 class="mb-4">Opponent's Choice:</h4>
@@ -86,7 +86,7 @@
                     </div>
                 </div>
             </div>
-            <div id="chatBlock" class="col-md-4 d-none mh-400px ">
+            <div id="chatBlock" class="col-md-4 col-12 d-none mh-400px mt-md-0 mt-2">
                 <div id="chatBox" class="h-400px bg-white text-dark pl-2 pt-1 rounded"></div>
                 <div class="input-group mt-1">
                     <input type="text" id="chatInput" class="form-control">
@@ -97,8 +97,8 @@
             </div>
         </div>
         <div class="row mt-3">
-            <div class="offset-lg-4"></div>
-            <div id="gameBlock" class="col-lg-4 btn-group d-none">
+            <div class="offset-md-4 offset-0"></div>
+            <div id="gameBlock" class="col-md-4 col-12 btn-group d-none">
                 <button type="button" class="btn btn-primary game-btn" value="Rock"><img
                         src="assets/img/icon-hand-rock.png" alt="Rock"></button>
                 <button type="button" class="btn btn-primary game-btn" value="Paper"><img
